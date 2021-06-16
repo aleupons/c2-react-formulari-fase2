@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { useFormulario } from "../hooks/useFormulario";
 
 export const Paso2 = (props) => {
@@ -6,7 +7,16 @@ export const Paso2 = (props) => {
   const {
     datos: { username, password, repitePassword },
     setDato,
+    datos,
   } = useFormulario(datosRegistro);
+  const [ocultar, setOcultar] = useState(true);
+  const compararContrasenya = (password1, password2) => {
+    if (password1 === password2 || password1 === "" || password2 === "") {
+      setOcultar(true);
+    } else {
+      setOcultar(false);
+    }
+  };
   const enviaPaso = (e) => {
     e.preventDefault();
     setDatosRegistro({ username, password, repitePassword });
@@ -34,6 +44,7 @@ export const Paso2 = (props) => {
             onChange={setDato}
             id="password"
             className="form-control"
+            onKeyUp={() => compararContrasenya(password, repitePassword)}
           />
         </div>
         <div className="form-group">
@@ -44,12 +55,23 @@ export const Paso2 = (props) => {
             onChange={setDato}
             id="repitePassword"
             className="form-control"
+            onKeyUp={() => compararContrasenya(password, repitePassword)}
           />
         </div>
+        <p className="alert alert-danger" hidden={ocultar}>
+          Las contraseñas no coinciden
+        </p>
         <button className="btn btn-info" onClick={retrocedePaso}>
           Anterior
         </button>
-        <button type="submit" className="btn btn-info">
+        <button
+          type="submit"
+          className="btn btn-info"
+          disabled={
+            Object.values(datos).some((prop) => prop === null || prop === "") ||
+            !ocultar
+          }
+        >
           Siguiente
         </button>
       </form>

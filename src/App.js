@@ -34,10 +34,20 @@ function App() {
     }
     setPaso(paso - 1);
   };
+  const compararDatos = (datos1, datos2) => {
+    if (
+      datos1.username === datos2.username &&
+      datos1.password === datos2.password
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <>
       <header>
-        <h1>Formulario</h1>
+        <h1 className="text-center">Formulario</h1>
       </header>
       <div className="contenedor">
         {paso === 1 && (
@@ -61,9 +71,17 @@ function App() {
             avanzaPaso={avanzaPaso}
             retrocedePaso={retrocedePaso}
             setDatosAcceso={setDatosAcceso}
+            datosRegistro={datosRegistro}
+            compararDatos={compararDatos}
           />
         )}
-        {paso === 4 && <Resumen retrocedePaso={retrocedePaso} />}
+        {paso === 4 && (
+          <Resumen
+            retrocedePaso={retrocedePaso}
+            datosPersonales={datosPersonales}
+            datosRegistro={datosRegistro}
+          />
+        )}
       </div>
     </>
   );

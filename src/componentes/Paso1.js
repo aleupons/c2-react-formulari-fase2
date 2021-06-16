@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { useFormulario } from "../hooks/useFormulario";
 
 export const Paso1 = (props) => {
@@ -6,11 +7,18 @@ export const Paso1 = (props) => {
   const {
     datos: { nombre, apellidos, fechaNacimiento, email },
     setDato,
+    datos,
   } = useFormulario(datosPersonales);
   const enviaPaso = (e) => {
     e.preventDefault();
     setDatosPersonales({ nombre, apellidos, fechaNacimiento, email });
     avanzaPaso();
+  };
+  const [anyos, setAnyos] = useState(0);
+  const calcularEdad = (fechaNacimiento) => {
+    const fecha = new Date(Date.now());
+    const diferencia = new Date(fecha.getTime() - Date.parse(fechaNacimiento));
+    return Math.abs(diferencia.getFullYear() - 1970);
   };
   return (
     <>
@@ -41,11 +49,14 @@ export const Paso1 = (props) => {
           <input
             type="date"
             value={fechaNacimiento}
-            onChange={setDato}
+            onChange={(e) => {
+              setDato(e);
+              setAnyos(calcularEdad(fechaNacimiento)); // S'ha de clicar 2 cops perquè canviï l'edat
+            }}
             id="fechaNacimiento"
             className="form-control"
           />
-          <span>Edad: </span>
+          <span>Edad: {anyos} años</span>
         </div>
         <div className="form-group">
           <label htmlFor="email">Correo electrónico:</label>
@@ -57,7 +68,13 @@ export const Paso1 = (props) => {
             className="form-control"
           />
         </div>
-        <button type="submit" className="btn btn-info">
+        <button
+          type="submit"
+          className="btn btn-info"
+          disabled={Object.values(datos).some(
+            (prop) => prop === null || prop === ""
+          )}
+        >
           Siguiente
         </button>
       </form>

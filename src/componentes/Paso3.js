@@ -1,16 +1,30 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { useFormulario } from "../hooks/useFormulario";
 
 export const Paso3 = (props) => {
-  const { datosAcceso, avanzaPaso, retrocedePaso, setDatosAcceso } = props;
+  const {
+    datosAcceso,
+    avanzaPaso,
+    retrocedePaso,
+    setDatosAcceso,
+    datosRegistro,
+    compararDatos,
+  } = props;
   const {
     datos: { username, password, recordarPassword },
     setDato,
+    datos,
   } = useFormulario(datosAcceso);
+  const [ocultar, setOcultar] = useState(true);
   const enviaPaso = (e) => {
     e.preventDefault();
-    setDatosAcceso({ username, password, recordarPassword });
-    avanzaPaso();
+    if (compararDatos(datosRegistro, datos)) {
+      setDatosAcceso({ username, password, recordarPassword });
+      avanzaPaso();
+    } else {
+      setOcultar(false);
+    }
   };
   return (
     <>
@@ -48,10 +62,19 @@ export const Paso3 = (props) => {
             Recordar contraseña
           </label>
         </div>
+        <p className="alert alert-danger" hidden={ocultar}>
+          El nombre de usuario o contraseña no estan en nuestra base de datos
+        </p>
         <button className="btn btn-info" onClick={retrocedePaso}>
           Anterior
         </button>
-        <button className="btn btn-info" type="submit">
+        <button
+          className="btn btn-info"
+          type="submit"
+          disabled={Object.values(datos).some(
+            (prop) => prop === null || prop === ""
+          )}
+        >
           Acceder
         </button>
       </form>
