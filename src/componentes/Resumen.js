@@ -26,4 +26,15 @@ export const Resumen = (props) => {
 
 Resumen.propTypes = {
   retrocedePaso: PropTypes.func.isRequired,
+  datosPersonales: PropTypes.shape({
+    nombre: PropTypes.string.isRequired,
+    apellidos: PropTypes.string.isRequired,
+    fechaNacimiento: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }).isRequired,
+  datosRegistro: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    repitePassword: PropTypes.string.isRequired,
+  }).isRequired,
 };

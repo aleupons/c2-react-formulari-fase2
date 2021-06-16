@@ -90,4 +90,11 @@ Paso3.propTypes = {
     password: PropTypes.string.isRequired,
     recordarPassword: PropTypes.bool.isRequired,
   }).isRequired,
+  setDatosAcceso: PropTypes.func.isRequired,
+  compararDatos: PropTypes.func.isRequired,
+  datosRegistro: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    repitePassword: PropTypes.string.isRequired,
+  }).isRequired,
 };

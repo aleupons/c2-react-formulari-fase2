@@ -87,4 +87,5 @@ Paso2.propTypes = {
     password: PropTypes.string.isRequired,
     repitePassword: PropTypes.string.isRequired,
   }).isRequired,
+  setDatosRegistro: PropTypes.func.isRequired,
 };

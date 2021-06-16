@@ -90,4 +90,5 @@ Paso1.propTypes = {
     email: PropTypes.string.isRequired,
   }).isRequired,
   avanzaPaso: PropTypes.func.isRequired,
+  setDatosPersonales: PropTypes.func.isRequired,
 };
